@@ -64,6 +64,12 @@ public class User implements UserDetails {
     @JsonManagedReference
     private List<BookingParticipant> bookingParticipant;
 
+    @OneToMany(
+            mappedBy = "client"
+    )
+    @JsonManagedReference
+    private List<Booking> bookings;
+
 
     public User() {
     }
