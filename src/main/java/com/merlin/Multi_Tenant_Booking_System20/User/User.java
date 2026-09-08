@@ -1,6 +1,8 @@
 package com.merlin.Multi_Tenant_Booking_System20.User;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.merlin.Multi_Tenant_Booking_System20.Booking.Booking;
+import com.merlin.Multi_Tenant_Booking_System20.BookingParticipant.BookingParticipant;
 import com.merlin.Multi_Tenant_Booking_System20.Notifications.Notifications;
 import com.merlin.Multi_Tenant_Booking_System20.StaffProfile.StaffProfile;
 import com.merlin.Multi_Tenant_Booking_System20.Vendor.Vendor;
@@ -49,6 +51,18 @@ public class User implements UserDetails {
     )
     @JsonManagedReference
     private List<Notifications> notification;
+
+    @OneToMany(
+            mappedBy = "bookedStaff"
+    )
+    @JsonManagedReference
+    private List<Booking> booking;
+
+    @OneToMany(
+            mappedBy = "client"
+    )
+    @JsonManagedReference
+    private List<BookingParticipant> bookingParticipant;
 
 
     public User() {
