@@ -1,0 +1,17 @@
+package com.merlin.Multi_Tenant_Booking_System20.Notifications;
+
+public enum NotificationType {
+    RESCHEDULE,
+    OVERSCHEDULED,
+    PAYMENT_SUCCESSFUL,
+    PAYMENT_FAILED,
+    BOOKING_SUCCESSFUL,
+    SERVICE_DONE ,
+    SERVICE_NOT_DONE ,
+    BOOKING_DATE_APPROACHING,
+    STAFF_REASSIGNMENT_CLIENT_ACTION,
+    STAFF_REASSIGNMENT_MANAGER_ACTION ,
+    NEW_REVIEW,
+    HIRED,
+    FIRED
+}
