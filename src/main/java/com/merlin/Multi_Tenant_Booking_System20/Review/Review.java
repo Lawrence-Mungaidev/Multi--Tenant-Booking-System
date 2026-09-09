@@ -33,6 +33,11 @@ public class Review {
     private String message;
     private double rating;
 
+    public Review() {
+    }
 
-
+    public Review(String message, double rating) {
+        this.message = message;
+        this.rating = rating;
+    }
 }

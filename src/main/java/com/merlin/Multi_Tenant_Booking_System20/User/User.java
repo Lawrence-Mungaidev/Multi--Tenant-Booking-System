@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.merlin.Multi_Tenant_Booking_System20.Booking.Booking;
 import com.merlin.Multi_Tenant_Booking_System20.BookingParticipant.BookingParticipant;
 import com.merlin.Multi_Tenant_Booking_System20.Notifications.Notifications;
+import com.merlin.Multi_Tenant_Booking_System20.Payment.Payment;
 import com.merlin.Multi_Tenant_Booking_System20.Review.Review;
 import com.merlin.Multi_Tenant_Booking_System20.StaffProfile.StaffProfile;
 import com.merlin.Multi_Tenant_Booking_System20.Vendor.Vendor;
@@ -30,6 +31,7 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    @Column(unique = true, nullable = false)
     private String email;
     private String password;
 
@@ -76,6 +78,12 @@ public class User implements UserDetails {
     )
     @JsonManagedReference
     private List<Review> reviews;
+
+    @OneToMany(
+            mappedBy = "client"
+    )
+    @JsonManagedReference
+    private List<Payment>  payments;
 
 
     public User() {

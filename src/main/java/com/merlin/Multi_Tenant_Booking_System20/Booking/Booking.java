@@ -63,6 +63,7 @@ public class Booking {
     @OneToOne
     private Review review;
 
+
     public Booking() {
     }
 
