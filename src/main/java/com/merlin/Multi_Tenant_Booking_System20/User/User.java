@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.merlin.Multi_Tenant_Booking_System20.Booking.Booking;
 import com.merlin.Multi_Tenant_Booking_System20.BookingParticipant.BookingParticipant;
 import com.merlin.Multi_Tenant_Booking_System20.Notifications.Notifications;
+import com.merlin.Multi_Tenant_Booking_System20.Review.Review;
 import com.merlin.Multi_Tenant_Booking_System20.StaffProfile.StaffProfile;
 import com.merlin.Multi_Tenant_Booking_System20.Vendor.Vendor;
 import jakarta.persistence.*;
@@ -69,6 +70,12 @@ public class User implements UserDetails {
     )
     @JsonManagedReference
     private List<Booking> bookings;
+
+    @OneToMany(
+            mappedBy = "client"
+    )
+    @JsonManagedReference
+    private List<Review> reviews;
 
 
     public User() {

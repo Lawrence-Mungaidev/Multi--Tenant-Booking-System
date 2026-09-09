@@ -3,6 +3,7 @@ package com.merlin.Multi_Tenant_Booking_System20.Vendor;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.merlin.Multi_Tenant_Booking_System20.Booking.Booking;
+import com.merlin.Multi_Tenant_Booking_System20.Review.Review;
 import com.merlin.Multi_Tenant_Booking_System20.StaffProfile.StaffProfile;
 import com.merlin.Multi_Tenant_Booking_System20.User.User;
 import jakarta.persistence.*;
@@ -52,6 +53,11 @@ public class Vendor {
     )
     @JsonManagedReference
     private List<Booking> booking;
+    @OneToMany(
+            mappedBy = "vendor"
+    )
+    @JsonManagedReference
+    private List<Review> reviews;
 
     public Vendor() {}
 

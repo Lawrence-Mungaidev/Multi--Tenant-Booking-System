@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.merlin.Multi_Tenant_Booking_System20.BookingParticipant.BookingParticipant;
 import com.merlin.Multi_Tenant_Booking_System20.Payment.Payment;
+import com.merlin.Multi_Tenant_Booking_System20.Review.Review;
 import com.merlin.Multi_Tenant_Booking_System20.User.User;
 import com.merlin.Multi_Tenant_Booking_System20.Vendor.Vendor;
 import jakarta.persistence.*;
@@ -59,6 +60,8 @@ public class Booking {
     @OneToOne
     private Payment payment;
     private boolean Attended;
+    @OneToOne
+    private Review review;
 
     public Booking() {
     }
