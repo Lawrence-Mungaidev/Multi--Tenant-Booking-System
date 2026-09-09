@@ -20,6 +20,7 @@ public class Vendor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long vendorId;
+    private String imageURL;
     private String vendorName;
     private String vendorAddress;
     private String vendorEmail;
@@ -61,8 +62,9 @@ public class Vendor {
 
     public Vendor() {}
 
-    public Vendor(String vendorName, String vendorAddress, String vendorEmail, String vendorPhone, String vendorCity, User businessOwner, LocalDateTime createdAt, String startOfWeek, String endOfWeek, String openingHours, String closingHours) {
+    public Vendor(String vendorName, String imageURL ,String vendorAddress, String vendorEmail, String vendorPhone, String vendorCity, User businessOwner, LocalDateTime createdAt, String startOfWeek, String endOfWeek, String openingHours, String closingHours) {
         this.vendorName = vendorName;
+        this.imageURL = imageURL;
         this.vendorAddress = vendorAddress;
         this.vendorEmail = vendorEmail;
         this.vendorPhone = vendorPhone;

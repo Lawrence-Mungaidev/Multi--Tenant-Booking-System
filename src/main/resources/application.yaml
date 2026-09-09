@@ -1,3 +1,41 @@
 spring:
   application:
     name: Multi-Tenant-Booking-System2.0
+  datasource:
+    url: jdbc:mysql://localhost:3306/BookingSystem
+    user: merlin
+    password: merlin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+  cloudinary:
+    cloud-name: dnnnu3ygt
+    api-key: 798976763622257
+    api-secret: TNqzyQY6CSoeS5FuHxP_r5t-wjM
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: mungailawrence52@gmail.com
+    password: ihfqnbxxzxgqmiza
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  Subscription:
+    amount: 500
+  jwt:
+    secret: trfYw9DT+hKHuJSg1ArawodzNgPqDk3sUg5NLXJbtdE=
+    expiration: 846000
+  Mpesa:
+    consumer-key: nFNE7c5rJ8rjHLG4JAKBA9KjUGHFwJgbjz4vLnf6sMvZSYbW
+    consumer-secret: m1DGLv6dXA5DCdgQVfhJAli5H2EQuzMTqNIR8GNssER7aFGRYxMPAHsdLP7s3igH
+    short-code: 174379
+    passkey: bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919
+    callback-url:
+
+

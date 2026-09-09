@@ -20,6 +20,7 @@ public class StaffProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long staffProfileId;
+    private String imageProfileURL;
 
     @OneToOne
     private User userId;
