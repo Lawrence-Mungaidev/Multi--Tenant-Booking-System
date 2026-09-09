@@ -32,5 +32,13 @@ public class BookingParticipant {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    public BookingParticipant() {
+    }
+
+    public BookingParticipant(User client, String placeHolderName, Status status) {
+        this.client = client;
+        this.placeHolderName = placeHolderName;
+        this.status = status;
+    }
 
 }
