@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.merlin.Multi_Tenant_Booking_System20.Booking.Booking;
 import com.merlin.Multi_Tenant_Booking_System20.Review.Review;
 import com.merlin.Multi_Tenant_Booking_System20.StaffProfile.StaffProfile;
+import com.merlin.Multi_Tenant_Booking_System20.Subscription.Subscription;
 import com.merlin.Multi_Tenant_Booking_System20.User.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -59,6 +60,16 @@ public class Vendor {
     )
     @JsonManagedReference
     private List<Review> reviews;
+    private String mpesaConsumerKey;
+    private String mpesaConsumerSecret;
+    private String mpesaShortcode;
+    private String mpesaPasskey;
+
+    @OneToMany(
+            mappedBy = "vendor"
+    )
+    @JsonManagedReference
+    private Subscription subscription;
 
     public Vendor() {}
 
