@@ -31,9 +31,9 @@ public class Category {
     public Category() {
     }
 
-    public Category(String name, String description, LocalDateTime createdAt) {
+    public Category(String name, String description) {
         this.name = name;
         this.description = description;
-        this.createdAt = createdAt;
+        this.createdAt = LocalDateTime.now();
     }
 }

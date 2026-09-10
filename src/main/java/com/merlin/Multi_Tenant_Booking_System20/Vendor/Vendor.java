@@ -60,10 +60,7 @@ public class Vendor {
     )
     @JsonManagedReference
     private List<Review> reviews;
-    private String mpesaConsumerKey;
-    private String mpesaConsumerSecret;
-    private String mpesaShortcode;
-    private String mpesaPasskey;
+    private String flutterwaveSubaccountId;
 
     @OneToMany(
             mappedBy = "vendor"
