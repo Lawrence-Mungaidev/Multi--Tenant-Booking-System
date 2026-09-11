@@ -21,6 +21,7 @@ public class ScheduleTime {
     private DayOfWeek daysOfWeek;
     private LocalTime startTime;
     private LocalTime endTime;
+    private boolean active;
 
     @ManyToOne
     @JoinColumn(
@@ -36,5 +37,6 @@ public class ScheduleTime {
         this.daysOfWeek = daysOfWeek;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.active = true;
     }
 }

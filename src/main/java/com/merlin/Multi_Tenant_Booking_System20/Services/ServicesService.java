@@ -102,6 +102,15 @@ public class ServicesService {
                .toList();
    }
 
+   private List<ServiceResponseDto> findAllActiveServices(User authenticatedUser){
+       Vendor vendor = authenticatedUser.getVendor();
+
+       return servicesRepository.findAllServicesByVendorAndIsActive(vendor,true)
+               .stream()
+               .map(serviceMapper :: toserviceResponseDto)
+               .toList();
+   }
+
   public void enableService(Long ServiceId, User authenticatedUser){
       Services services = servicesRepository.findById(ServiceId)
               .orElseThrow(()-> new ResourceNotFound("Service Not Found"));

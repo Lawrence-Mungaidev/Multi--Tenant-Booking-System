@@ -9,4 +9,5 @@ import java.util.List;
 public interface ServicesRepository extends JpaRepository<Services,Long> {
 
     List<Services> findAllServicesByVendor(Vendor vendor);
+    List<Services> findAllServicesByVendorAndIsActive(Vendor vendor, Boolean isActive);
 }

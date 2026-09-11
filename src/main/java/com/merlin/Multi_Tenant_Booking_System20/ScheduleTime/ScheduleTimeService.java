@@ -29,7 +29,7 @@ public class ScheduleTimeService {
         }
 
        if(dto.dayOfWeek().compareTo(services.getVendor().getStartOfWeek()) < 0
-               || dto.dayOfWeek().compareTo(services.getVendor().getEndOfWeek()) > 0{
+               || dto.dayOfWeek().compareTo(services.getVendor().getEndOfWeek()) > 0){
            throw new BusinessRuleException("Invalid day of week");
        }
 
@@ -67,6 +67,78 @@ public class ScheduleTimeService {
         }
 
         return true;
+    }
+
+    public ServiceScheduleResponseDto updateScheduleTime(ServiceScheduleTimeDto dto, User authenticatedUser, Long scheduleTimeId) {
+        ScheduleTime scheduleTime = scheduleTimeRepository.findById(scheduleTimeId)
+                .orElseThrow(()-> new ResourceNotFound("Schedule Time Not Found"));
+
+        Services services = servicesRepository.findById(dto.ServiceId())
+                .orElseThrow(()-> new ResourceNotFound("Service Not Found"));
+
+
+        boolean userIsAllowed = isOwnerOrManager(services, authenticatedUser);
+
+        if (!userIsAllowed) {
+            throw new BusinessRuleException("User is not allowed to update schedule time.");
+        }
+
+        scheduleTime.setServices(services);
+
+        if(dto.dayOfWeek() !=null){
+            scheduleTime.setDaysOfWeek(dto.dayOfWeek());
+        }
+        if(dto.startTime() != null){
+            scheduleTime.setStartTime(dto.startTime());
+        }
+        if(dto.endTime() != null){
+            scheduleTime.setEndTime(dto.endTime());
+        }
+        var savedScheduleTime = scheduleTimeRepository.save(scheduleTime);
+
+        return serviceScheduleMapper.toServiceScheduleResponseDto(savedScheduleTime);
+
+    }
+
+    public void activateScheduleTime(Long scheduleId, User authenticatedUser) {
+        ScheduleTime scheduleTime = scheduleTimeRepository.findById(scheduleId)
+                .orElseThrow(()-> new ResourceNotFound("Schedule Time Not Found"));
+
+        Services services = servicesRepository.findById(scheduleTime.getServices().getId())
+                .orElseThrow(()-> new ResourceNotFound("Service Not Found"));
+
+        boolean userIsAllowed = isOwnerOrManager(services, authenticatedUser);
+
+        if (!userIsAllowed) {
+            throw new BusinessRuleException("User is not allowed to activate schedule time.");
+        }
+
+        if (scheduleTime.isActive()) {
+            throw new BusinessRuleException("Schedule time is already active.");
+        }
+        scheduleTime.setActive(true);
+
+        scheduleTimeRepository.save(scheduleTime);
+    }
+
+    public void deactivateScheduleTime(Long scheduleId, User authenticatedUser) {
+        ScheduleTime scheduleTime = scheduleTimeRepository.findById(scheduleId)
+                .orElseThrow(()-> new ResourceNotFound("Schedule Time Not Found"));
+
+        Services services = servicesRepository.findById(scheduleTime.getServices().getId())
+                .orElseThrow(()-> new ResourceNotFound("Service Not Found"));
+
+        boolean userIsAllowed = isOwnerOrManager(services, authenticatedUser);
+
+        if (!userIsAllowed) {
+            throw new BusinessRuleException("User is not allowed to activate schedule time.");
+        }
+        if (!scheduleTime.isActive()) {
+            throw new BusinessRuleException("Schedule time is already active.");
+        }
+        scheduleTime.setActive(false);
+
+        scheduleTimeRepository.save(scheduleTime);
     }
 
 
