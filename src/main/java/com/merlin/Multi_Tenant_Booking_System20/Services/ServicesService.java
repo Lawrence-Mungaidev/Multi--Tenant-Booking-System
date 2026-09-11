@@ -4,6 +4,7 @@ import com.merlin.Multi_Tenant_Booking_System20.Category.Category;
 import com.merlin.Multi_Tenant_Booking_System20.Category.CategoryRepository;
 import com.merlin.Multi_Tenant_Booking_System20.Exceptions.BusinessRuleException;
 import com.merlin.Multi_Tenant_Booking_System20.Exceptions.ResourceNotFound;
+import com.merlin.Multi_Tenant_Booking_System20.ScheduleTime.ScheduleTime;
 import com.merlin.Multi_Tenant_Booking_System20.StaffProfile.StaffProfile;
 import com.merlin.Multi_Tenant_Booking_System20.StaffProfile.StaffProfileRepository;
 import com.merlin.Multi_Tenant_Booking_System20.User.Role;
@@ -29,6 +30,8 @@ public class ServicesService {
 
        Services services = serviceMapper.toService(dto);
        services.setCategory(category);
+       services.setScheduleTime(dto.scheduleTime());
+
 
        var savedServices = servicesRepository.save(services);
 
@@ -81,6 +84,9 @@ public class ServicesService {
        if(dto.duration() != 0){
            services.setDuration(dto.duration());
 
+       }
+       if(!dto.scheduleTime().isEmpty()){
+           services.setScheduleTime(dto.scheduleTime());
        }
        servicesRepository.save(services);
        return  serviceMapper.toserviceResponseDto(services);

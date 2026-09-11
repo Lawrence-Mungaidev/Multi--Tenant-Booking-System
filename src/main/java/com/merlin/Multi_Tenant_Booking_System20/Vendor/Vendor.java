@@ -12,7 +12,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -37,10 +39,10 @@ public class Vendor {
     @JsonBackReference
     private User businessOwner;
     private LocalDateTime createdAt;
-    private String startOfWeek;
-    private String endOfWeek;
-    private String openingHours;
-    private String closingHours;
+    private DayOfWeek startOfWeek;
+    private DayOfWeek endOfWeek;
+    private LocalTime openingHours;
+    private LocalTime closingHours;
     private int stars;
     private int maxBookingDays;
 
@@ -78,7 +80,7 @@ public class Vendor {
 
     public Vendor() {}
 
-    public Vendor(String vendorName, String imageURL ,String vendorAddress, String vendorEmail, String vendorPhone, String vendorCity,  String startOfWeek, String endOfWeek, String openingHours, String closingHours) {
+    public Vendor(String vendorName, String imageURL , String vendorAddress, String vendorEmail, String vendorPhone, String vendorCity, DayOfWeek startOfWeek, DayOfWeek endOfWeek, LocalTime openingHours, LocalTime closingHours) {
         this.vendorName = vendorName;
         this.imageURL = imageURL;
         this.vendorAddress = vendorAddress;

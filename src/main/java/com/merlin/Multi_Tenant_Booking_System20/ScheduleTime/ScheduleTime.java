@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 @Entity
@@ -18,10 +18,9 @@ public class ScheduleTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
-    private DaysOfWeek daysOfWeek;
+    private DayOfWeek daysOfWeek;
     private LocalTime startTime;
     private LocalTime endTime;
-    private int duration;
 
     @ManyToOne
     @JoinColumn(
@@ -33,10 +32,9 @@ public class ScheduleTime {
     public ScheduleTime() {
     }
 
-    public ScheduleTime(DaysOfWeek daysOfWeek, LocalTime startTime, LocalTime endTime, int duration) {
+    public ScheduleTime(DayOfWeek daysOfWeek, LocalTime startTime, LocalTime endTime) {
         this.daysOfWeek = daysOfWeek;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.duration = duration;
     }
 }
