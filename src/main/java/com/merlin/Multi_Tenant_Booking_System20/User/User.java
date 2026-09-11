@@ -84,6 +84,11 @@ public class User implements UserDetails {
     )
     @JsonManagedReference
     private List<Payment>  payments;
+    @OneToMany(
+            mappedBy = "businessOwner"
+    )
+    @JsonManagedReference
+    private Vendor vendor;
 
 
     public User() {

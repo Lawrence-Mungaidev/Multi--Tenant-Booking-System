@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.merlin.Multi_Tenant_Booking_System20.Booking.Booking;
 import com.merlin.Multi_Tenant_Booking_System20.Review.Review;
+import com.merlin.Multi_Tenant_Booking_System20.Services.Services;
 import com.merlin.Multi_Tenant_Booking_System20.StaffProfile.StaffProfile;
 import com.merlin.Multi_Tenant_Booking_System20.Subscription.Subscription;
 import com.merlin.Multi_Tenant_Booking_System20.User.User;
@@ -67,18 +68,24 @@ public class Vendor {
     )
     @JsonManagedReference
     private Subscription subscription;
+    @OneToMany(
+            mappedBy = ""
+    )
+    @JsonManagedReference
+    private List<Services> services;
+
+
 
     public Vendor() {}
 
-    public Vendor(String vendorName, String imageURL ,String vendorAddress, String vendorEmail, String vendorPhone, String vendorCity, User businessOwner, LocalDateTime createdAt, String startOfWeek, String endOfWeek, String openingHours, String closingHours) {
+    public Vendor(String vendorName, String imageURL ,String vendorAddress, String vendorEmail, String vendorPhone, String vendorCity,  String startOfWeek, String endOfWeek, String openingHours, String closingHours) {
         this.vendorName = vendorName;
         this.imageURL = imageURL;
         this.vendorAddress = vendorAddress;
         this.vendorEmail = vendorEmail;
         this.vendorPhone = vendorPhone;
         this.vendorCity = vendorCity;
-        this.businessOwner = businessOwner;
-        this.createdAt = createdAt;
+        this.createdAt = LocalDateTime.now();
         this.startOfWeek = startOfWeek;
         this.endOfWeek = endOfWeek;
         this.openingHours = openingHours;

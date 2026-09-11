@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.merlin.Multi_Tenant_Booking_System20.Category.Category;
 import com.merlin.Multi_Tenant_Booking_System20.ScheduleTime.ScheduleTime;
+import com.merlin.Multi_Tenant_Booking_System20.Vendor.Vendor;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,6 +41,12 @@ public class Services {
     )
     @JsonManagedReference
     private List<ScheduleTime> scheduleTime;
+    @ManyToOne
+    @JoinColumn(
+            name = "vendorId"
+    )
+    @JsonBackReference
+    private Vendor vendor;
 
 
 
