@@ -105,13 +105,11 @@ public class StaffProfileService {
                 .toList();
     }
 
-    public StaffProfileResponseDto getStaffProfile(Long staffProfileId,  User authenticatedUser){
+    public StaffProfileResponseDto getStaffProfile(User authenticatedUser){
+        Long staffProfileId = authenticatedUser.getStaffProfile().getStaffProfileId();
+
         StaffProfile staffProfile = staffProfileRepository.findById(staffProfileId)
                 .orElseThrow(()-> new ResourceNotFound("User not found"));
-
-        if (!staffProfile.getUserId().getUserId().equals(authenticatedUser.getUserId()) ) {
-            throw new BusinessRuleException("You cannot view this ");
-        }
 
         return staffProfileMapper.toStaffProfileResponseDto(staffProfile);
     }

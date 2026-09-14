@@ -80,7 +80,7 @@ public class Vendor {
 
     public Vendor() {}
 
-    public Vendor(String vendorName, String imageURL , String vendorAddress, String vendorEmail, String vendorPhone, String vendorCity, DayOfWeek startOfWeek, DayOfWeek endOfWeek, LocalTime openingHours, LocalTime closingHours) {
+    public Vendor(String vendorName, String vendorAddress, String vendorEmail, String vendorPhone, String vendorCity, DayOfWeek startOfWeek, DayOfWeek endOfWeek, LocalTime openingHours, LocalTime closingHours) {
         this.vendorName = vendorName;
         this.imageURL = imageURL;
         this.vendorAddress = vendorAddress;

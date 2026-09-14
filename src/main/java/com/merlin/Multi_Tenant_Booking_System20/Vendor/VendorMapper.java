@@ -21,6 +21,6 @@ public class VendorMapper {
     }
 
     public VendorResponseDto toVendorResponseDto(Vendor vendor) {
-        return  new VendorResponseDto(vendor.getVendorId(), )
+        return  new VendorResponseDto(vendor.getVendorId(), vendor.getImageURL(), vendor.getVendorAddress(), vendor.getVendorEmail(), vendor.getVendorPhone(), vendor.getVendorCity(), vendor.getVendorCity(), vendor.getStartOfWeek(), vendor.getEndOfWeek(),vendor.getOpeningHours(), vendor.getClosingHours());
     }
 }
