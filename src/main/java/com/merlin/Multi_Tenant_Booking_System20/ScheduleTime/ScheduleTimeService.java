@@ -2,6 +2,7 @@ package com.merlin.Multi_Tenant_Booking_System20.ScheduleTime;
 
 import com.merlin.Multi_Tenant_Booking_System20.Exceptions.BusinessRuleException;
 import com.merlin.Multi_Tenant_Booking_System20.Exceptions.ResourceNotFound;
+import com.merlin.Multi_Tenant_Booking_System20.Services.ServiceType;
 import com.merlin.Multi_Tenant_Booking_System20.Services.Services;
 import com.merlin.Multi_Tenant_Booking_System20.Services.ServicesRepository;
 import com.merlin.Multi_Tenant_Booking_System20.StaffProfile.StaffProfile;
@@ -21,6 +22,14 @@ public class ScheduleTimeService {
     public ServiceScheduleResponseDto createScheduleTime(ServiceScheduleTimeDto dto, User authenticatedUser) {
         Services services = servicesRepository.findById(dto.ServiceId())
                 .orElseThrow(()-> new ResourceNotFound("Service Not Found"));
+
+        if(!services.isAvailable()){
+            throw new BusinessRuleException("Service Not Available");
+        }
+
+        if(!services.getServiceType().equals(ServiceType.GROUP)){
+            throw new BusinessRuleException("Service Type Not Group hence cannot add a schedule");
+        }
 
         boolean userIsAllowed = isOwnerOrManager(services, authenticatedUser);
 
@@ -75,6 +84,15 @@ public class ScheduleTimeService {
 
         Services services = servicesRepository.findById(dto.ServiceId())
                 .orElseThrow(()-> new ResourceNotFound("Service Not Found"));
+
+
+        if(!services.isAvailable()){
+            throw new BusinessRuleException("Service Not Available");
+        }
+
+        if(!services.getServiceType().equals(ServiceType.GROUP)){
+            throw new BusinessRuleException("Service Type Not Group hence cannot add a schedule");
+        }
 
 
         boolean userIsAllowed = isOwnerOrManager(services, authenticatedUser);
