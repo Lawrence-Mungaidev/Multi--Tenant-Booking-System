@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -33,8 +34,8 @@ public class StaffProfile {
     private List<Vendor> vendor;
 
     private boolean isAvailable;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     @OneToMany(
             mappedBy = "staffProfile"
@@ -45,7 +46,7 @@ public class StaffProfile {
     public StaffProfile() {
     }
 
-    public StaffProfile(User userId, List<Vendor> vendor, boolean isAvailable, LocalDate startDate, LocalDate endDate, List<QualifiedServices> qualifiedService) {
+    public StaffProfile(User userId, List<Vendor> vendor, boolean isAvailable, LocalDateTime startDate, LocalDateTime endDate, List<QualifiedServices> qualifiedService) {
         this.userId = userId;
         this.vendor = vendor;
         this.isAvailable = isAvailable;

@@ -1,6 +1,7 @@
 package com.merlin.Multi_Tenant_Booking_System20.StaffProfile;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record StaffProfileResponseDto(
@@ -8,8 +9,8 @@ public record StaffProfileResponseDto(
         Long userId,
         List<Long> vendorId,
         boolean isAvailable,
-        LocalDate startDate,
-        LocalDate endDate,
+        LocalDateTime startDate,
+        LocalDateTime endDate,
         List<Long> qualifiedService
 ) {
 }
