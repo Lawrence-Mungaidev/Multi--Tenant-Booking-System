@@ -20,7 +20,7 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final StaffProfileService  staffProfileService;
-    private final VendorRepository vendorRepository
+    private final VendorRepository vendorRepository;
 
     public UserResponseDto createStaffS(Long vendorId,UserDto dto, User authenticatedUser) {
         boolean isOwnerOrManager = authenticatedUser.getRole().equals(Role.OWNER) || authenticatedUser.getRole().equals(Role.MANAGER);
@@ -120,5 +120,25 @@ public class UserService {
                 .stream()
                 .map(userMapper :: toUserResponseDto)
                 .toList();
+    }
+
+    public UserResponseDto getUser(User authenticatedUser){
+        User user = userRepository.findById(authenticatedUser.getUserId())
+                .orElseThrow(() -> new ResourceNotFound("User wasn't found"));
+
+        return userMapper.toUserResponseDto(user);
+    }
+
+    public UserResponseDto getUserById(Long userId, User authenticatedUser){
+        boolean isUserIsStaff = authenticatedUser.getRole().equals(Role.STAFF);
+
+        if(isUserIsStaff){
+            throw new BusinessRuleException("Sorry you cannot see the user");
+        }
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFound("User wasn't found"));
+
+        return userMapper.toUserResponseDto(user);
     }
 }

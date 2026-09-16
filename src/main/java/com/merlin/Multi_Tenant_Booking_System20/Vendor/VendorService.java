@@ -2,11 +2,13 @@ package com.merlin.Multi_Tenant_Booking_System20.Vendor;
 
 import com.merlin.Multi_Tenant_Booking_System20.Exceptions.BusinessRuleException;
 import com.merlin.Multi_Tenant_Booking_System20.Exceptions.ResourceNotFound;
+import com.merlin.Multi_Tenant_Booking_System20.StaffProfile.StaffProfile;
 import com.merlin.Multi_Tenant_Booking_System20.User.Role;
 import com.merlin.Multi_Tenant_Booking_System20.User.User;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

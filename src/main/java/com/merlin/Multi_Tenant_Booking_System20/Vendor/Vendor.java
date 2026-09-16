@@ -75,6 +75,9 @@ public class Vendor {
     )
     @JsonManagedReference
     private List<Services> services;
+    private int reviewCount;
+    private double averageRating;
+    private double totalRating;
 
 
 
