@@ -11,6 +11,6 @@ public record UserDto(
         String email,
         String password,
         Role role,
-        List<Long> vendor
+        Long vendor
 ) {
 }

@@ -6,6 +6,6 @@ public record UserResponseDto(
         String firstName,
         String lastName,
         Role role,
-        List<Long> vendor
+        Long vendor
 ) {
 }

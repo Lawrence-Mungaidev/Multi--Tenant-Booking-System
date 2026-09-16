@@ -3,10 +3,11 @@ package com.merlin.Multi_Tenant_Booking_System20.StaffProfile;
 import com.merlin.Multi_Tenant_Booking_System20.Cloudinary.MediaService;
 import com.merlin.Multi_Tenant_Booking_System20.Exceptions.BusinessRuleException;
 import com.merlin.Multi_Tenant_Booking_System20.Exceptions.ResourceNotFound;
-import com.merlin.Multi_Tenant_Booking_System20.User.Role;
-import com.merlin.Multi_Tenant_Booking_System20.User.User;
-import com.merlin.Multi_Tenant_Booking_System20.User.UserRepository;
+import com.merlin.Multi_Tenant_Booking_System20.Notifications.NotificationType;
+import com.merlin.Multi_Tenant_Booking_System20.Notifications.NotificationsService;
+import com.merlin.Multi_Tenant_Booking_System20.User.*;
 import com.merlin.Multi_Tenant_Booking_System20.Vendor.Vendor;
+import com.merlin.Multi_Tenant_Booking_System20.Vendor.VendorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,9 @@ public class StaffProfileService {
     private final StaffProfileMapper staffProfileMapper;
     private final UserRepository userRepository;
     private final MediaService mediaService;
+    private final UserMapper userMapper;
+    private final NotificationsService notificationsService;
+    private final VendorRepository vendorRepository;
 
     public  StaffProfileResponseDto hireStaff(User staff , Vendor vendor){
         User targetUser = userRepository.findById(staff.getUserId())
@@ -55,6 +59,7 @@ public class StaffProfileService {
 
     }
 
+
     public void updateProfilePic(Long staffProfileId, MultipartFile file, User authenticatedUser){
         StaffProfile staffProfile = staffProfileRepository.findById(staffProfileId)
                 .orElseThrow(() -> new ResourceNotFound("User not found"));
@@ -86,23 +91,38 @@ public class StaffProfileService {
         staffProfile.setEndDate(LocalDateTime.now());
         staffProfile.setAvailable(false);
 
+        String vendorName = null;
+
+        for(Vendor vendor : staffProfile.getVendor()){
+            if(authenticatedUser.getVendor().equals(vendor) && staffProfile.getEndDate() == null){
+                vendorName = vendor.getVendorName();
+            }
+        }
+
+        String message = "Unfortunately we no longer need you're service and from " + LocalDateTime.now() + " you are dismissed at " + vendorName + " we wish you luck on your career.";
+
+        notificationsService.createNotification(message, authenticatedUser.getUserId(), staffProfileId, NotificationType.FIRED);
+
         staffProfileRepository.save(staffProfile);
     }
 
-    public List<StaffProfileResponseDto> getStaffs(User authenticatedUser){
-        boolean isAllowed = authenticatedUser.getRole().equals(Role.OWNER)
-                || authenticatedUser.getRole().equals(Role.MANAGER);
-
-        if (!isAllowed) {
-            throw new BusinessRuleException("You are not allowed perform this action");
+    public List<UserResponseDto> getStaffAtVendor(User authenticatedUser, Long vendorId){
+        if(!authenticatedUser.getRole().equals(Role.OWNER)){
+            throw new BusinessRuleException("Sorry you cannot get this");
         }
 
-        Long vendorId= authenticatedUser.getVendor().getVendorId();
+        Vendor vendor = vendorRepository.findById(vendorId)
+                .orElseThrow(()-> new ResourceNotFound("Cannot vendor"));
 
-        return staffProfileRepository.findStaffProfileByVendorId(vendorId)
+        if(!vendor.getBusinessOwner().equals(authenticatedUser)){
+            throw new BusinessRuleException("You are not the owner of this vendor");
+        }
+
+        return userRepository.findUserByVendorsAndRole(vendor,Role.STAFF)
                 .stream()
-                .map(staffProfileMapper :: toStaffProfileResponseDto)
+                .map(userMapper :: toUserResponseDto)
                 .toList();
+
     }
 
     public StaffProfileResponseDto getStaffProfile(User authenticatedUser){

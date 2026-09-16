@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -32,6 +34,7 @@ public class Review {
     private Vendor vendor;
     private String message;
     private double rating;
+    private LocalDateTime createdAt;
 
     public Review() {
     }

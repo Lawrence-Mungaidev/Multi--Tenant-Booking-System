@@ -39,6 +39,7 @@ public class User implements UserDetails {
     private Role role;
     private LocalDateTime createdAt;
     private boolean isActive;
+    private boolean mustChangePassword;
 
     @OneToOne
     private StaffProfile staffProfile;
@@ -88,7 +89,8 @@ public class User implements UserDetails {
             mappedBy = "businessOwner"
     )
     @JsonManagedReference
-    private Vendor vendor;
+    private List<Vendor> vendor;
+
 
 
     public User() {

@@ -6,7 +6,6 @@ public record UserUpdateDto(
 
         String firstName,
         String lastName,
-        Role role,
-        List<Long> vendor
-) {
+        String phoneNumber
+        ) {
 }
