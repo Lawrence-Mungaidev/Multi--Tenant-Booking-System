@@ -2,13 +2,13 @@ package com.merlin.Multi_Tenant_Booking_System20.Vendor;
 
 import com.merlin.Multi_Tenant_Booking_System20.Exceptions.BusinessRuleException;
 import com.merlin.Multi_Tenant_Booking_System20.Exceptions.ResourceNotFound;
-import com.merlin.Multi_Tenant_Booking_System20.StaffProfile.StaffProfile;
+import com.merlin.Multi_Tenant_Booking_System20.Payment.CredentialEncryptionService;
+import com.merlin.Multi_Tenant_Booking_System20.Payment.K2AuthService;
 import com.merlin.Multi_Tenant_Booking_System20.User.Role;
 import com.merlin.Multi_Tenant_Booking_System20.User.User;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.List;
 
@@ -18,6 +18,8 @@ public class VendorService {
 
     private final VendorRepository vendorRepository;
     private final VendorMapper vendorMapper;
+    private final K2AuthService k2AuthService;
+    private final CredentialEncryptionService credentialEncryptionService;
 
     public VendorResponseDto createVendor(VendorDto dto, User authenticatedUser) {
         if(!authenticatedUser.getRole().equals(Role.OWNER)){
@@ -61,13 +63,42 @@ public class VendorService {
             vendor.setVendorCity(dto.vendorCity());
         }
         if(dto.openingHours() != null){
-            vendor.setOpeningHours(dto.openingHours());
+            vendor.setOpeningHour(dto.openingHours());
         }
         if(dto.closingHours() != null){
-            vendor.setClosingHours(dto.closingHours());
+            vendor.setClosingHour(dto.closingHours());
         }
         vendorRepository.save(vendor);
         return vendorMapper.toVendorResponseDto(vendor);
+    }
+
+    public String createKopoKopoAccount(Long vendorId,KopoKopoCredentialsDto dto, User authenticatedUser) {
+        if(!authenticatedUser.getRole().equals(Role.OWNER)){
+            throw new BusinessRuleException("Only Owners can create kopo kopo accounts");
+        }
+
+        Vendor vendor = vendorRepository.findById(vendorId)
+                .orElseThrow(()-> new ResourceNotFound("vendor not found"));
+
+
+        boolean isOwner = authenticatedUser.getUserId().equals(vendor.getBusinessOwner().getUserId()) && vendor.getBusinessOwner().isActive();
+
+        if (!isOwner){
+            throw new BusinessRuleException("You cannot create kopo kopo account for this vendor");
+        }
+
+        boolean credentialsValid = k2AuthService.verifyCredentials(dto.clientId(), dto.clientSecret());
+        if (!credentialsValid) {
+            throw new BusinessRuleException("KopoKopo rejected these credentials — please check your Client ID and Secret");
+        }
+
+        vendor.setK2ClientId(credentialEncryptionService.encrypt(dto.clientId()));
+        vendor.setK2ClientSecret(credentialEncryptionService.encrypt(dto.clientSecret()));
+        vendor.setTillNumber(dto.tillNumber());
+        vendorRepository.save(vendor);
+
+        return "Kopo Kopo account linked and verified successfully";
+
     }
 
     public List<VendorResponseDto> getAllVendors(User authenticatedUser) {

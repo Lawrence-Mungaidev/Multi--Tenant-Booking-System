@@ -1,18 +1,21 @@
 package com.merlin.Multi_Tenant_Booking_System20.Booking;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.merlin.Multi_Tenant_Booking_System20.BookingParticipant.BookingParticipant;
+
 import com.merlin.Multi_Tenant_Booking_System20.Payment.Payment;
 import com.merlin.Multi_Tenant_Booking_System20.Review.Review;
+import com.merlin.Multi_Tenant_Booking_System20.Services.Services;
+import com.merlin.Multi_Tenant_Booking_System20.StaffProfile.StaffProfile;
 import com.merlin.Multi_Tenant_Booking_System20.User.User;
 import com.merlin.Multi_Tenant_Booking_System20.Vendor.Vendor;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Entity
 @Getter
@@ -30,18 +33,12 @@ public class Booking {
     @JoinColumn(
             name = "bookedStaffId"
     )
-    private User bookedStaff;
-    private int numberOfPeople;
+    private StaffProfile bookedStaff;
+    private int numberOfParticipants;
     private int rescheduleCount;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            mappedBy = "booking"
-        )
-    @JsonManagedReference
-    private List<BookingParticipant> bookingParticipant;
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private BookingStatus status;
     @ManyToOne
     @JoinColumn(
             name = "vendorId"
@@ -55,26 +52,32 @@ public class Booking {
     )
     @JsonBackReference
     private User client;
-    private LocalDateTime bookedDate;
 
-    @OneToOne
-    private Payment payment;
     private boolean Attended;
+    private LocalDateTime attendedDate;
     @OneToOne
     private Review review;
+    private LocalDateTime createdAT;
+    private BigDecimal amount;
+    @ManyToOne
+    @JoinColumn(
+            name = "serviceId"
+    )
+    @JsonBackReference
+    private Services services;
+    private String paymentReference;
 
 
     public Booking() {
     }
 
-    public Booking(LocalDateTime intendentDay, BookingType bookingType, User bookedStaff, int numberOfPeople, int rescheduleCount,  Payment payment) {
+    public Booking(LocalDateTime intendentDay, BookingType bookingType, StaffProfile bookedStaff, int numberOfParticipants, int rescheduleCount) {
         this.intendentDay = intendentDay;
         this.bookingType = bookingType;
         this.bookedStaff = bookedStaff;
-        this.numberOfPeople = numberOfPeople;
+        this.numberOfParticipants = numberOfParticipants;
         this.rescheduleCount = rescheduleCount;
-        this.bookedDate = LocalDateTime.now();
-        this.payment = payment;
+        this.createdAT = LocalDateTime.now();
         Attended = false;
     }
 }

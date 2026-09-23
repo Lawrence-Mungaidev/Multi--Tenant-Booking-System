@@ -2,6 +2,7 @@ package com.merlin.Multi_Tenant_Booking_System20.Services;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.merlin.Multi_Tenant_Booking_System20.Booking.Booking;
 import com.merlin.Multi_Tenant_Booking_System20.Category.Category;
 import com.merlin.Multi_Tenant_Booking_System20.ScheduleTime.ScheduleTime;
 import com.merlin.Multi_Tenant_Booking_System20.Vendor.Vendor;
@@ -47,6 +48,11 @@ public class Services {
     )
     @JsonBackReference
     private Vendor vendor;
+    @OneToMany(
+            mappedBy = "services"
+    )
+    @JsonManagedReference
+    private List<Booking> bookings;
 
 
 

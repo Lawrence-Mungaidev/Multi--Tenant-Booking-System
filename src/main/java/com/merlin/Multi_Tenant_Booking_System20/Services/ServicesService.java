@@ -10,6 +10,7 @@ import com.merlin.Multi_Tenant_Booking_System20.StaffProfile.StaffProfileReposit
 import com.merlin.Multi_Tenant_Booking_System20.User.Role;
 import com.merlin.Multi_Tenant_Booking_System20.User.User;
 import com.merlin.Multi_Tenant_Booking_System20.Vendor.Vendor;
+import com.merlin.Multi_Tenant_Booking_System20.Vendor.VendorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class ServicesService {
     private final ServiceMapper serviceMapper;
     private final CategoryRepository categoryRepository;
     private final StaffProfileRepository staffProfileRepository;
+    private final VendorRepository vendorRepository;
 
    public ServiceResponseDto createService(ServiceDto dto){
        Category category = categoryRepository.findById(dto.category())
@@ -93,8 +95,10 @@ public class ServicesService {
 
    }
 
-   public List<ServiceResponseDto> findAllServices(User authenticatedUser){
-       Vendor vendor = authenticatedUser.getVendor();
+   public List<ServiceResponseDto> findAllVendorsServices(Long vendorId){
+
+       Vendor vendor  = vendorRepository.findById(vendorId)
+               .orElseThrow(()-> new ResourceNotFound("Vendor Not Found"));
 
        return servicesRepository.findAllServicesByVendor(vendor)
                .stream()
@@ -102,8 +106,10 @@ public class ServicesService {
                .toList();
    }
 
-   private List<ServiceResponseDto> findAllActiveServices(User authenticatedUser){
-       Vendor vendor = authenticatedUser.getVendor();
+   private List<ServiceResponseDto> findAllActiveServices(Long vendorId){
+       Vendor vendor  = vendorRepository.findById(vendorId)
+               .orElseThrow(()-> new ResourceNotFound("Vendor Not Found"));
+
 
        return servicesRepository.findAllServicesByVendorAndIsActive(vendor,true)
                .stream()

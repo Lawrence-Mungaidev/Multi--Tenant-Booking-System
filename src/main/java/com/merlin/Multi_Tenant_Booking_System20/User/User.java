@@ -57,12 +57,6 @@ public class User implements UserDetails {
     private List<Notifications> notification;
 
     @OneToMany(
-            mappedBy = "bookedStaff"
-    )
-    @JsonManagedReference
-    private List<Booking> booking;
-
-    @OneToMany(
             mappedBy = "client"
     )
     @JsonManagedReference

@@ -43,7 +43,7 @@ public class ScheduleTimeService {
        }
 
         if (dto.startTime().isBefore(services.getVendor().getOpeningHours())
-                || dto.endTime().isAfter(services.getVendor().getClosingHours())) {
+                || dto.endTime().isAfter(services.getVendor().getClosingHour())) {
             throw new BusinessRuleException("Schedule time falls outside vendor's operating hours");
         }
 

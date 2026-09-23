@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -41,6 +43,10 @@ public class ReviewService {
 
         if(!booking.isAttended()){
             throw new BusinessRuleException("You cannot make any review since you didn't attend");
+        }
+
+        if (ChronoUnit.DAYS.between(booking.getAttendedDate(), LocalDateTime.now()) > 30) {
+            throw new BusinessRuleException("Review window has closed");
         }
 
         Review review = reviewMapper.toReview(dto);

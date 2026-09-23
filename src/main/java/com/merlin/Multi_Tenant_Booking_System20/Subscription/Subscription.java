@@ -27,6 +27,15 @@ public class Subscription {
     private Status status;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private BigDecimal amount;
+    private BigDecimal subscriptionFee;
     private String mpesaRefference;
+
+    public Subscription() {
+    }
+
+    public Subscription(Vendor vendor,String mpesaRefference) {
+        this.vendor = vendor;
+        this.subscriptionFee = BigDecimal.valueOf(3000.00);
+        this.mpesaRefference = mpesaRefference;
+    }
 }

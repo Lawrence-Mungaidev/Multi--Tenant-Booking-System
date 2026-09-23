@@ -10,7 +10,6 @@ public record UserDto(
         String phoneNumber,
         String email,
         String password,
-        Role role,
-        Long vendor
+        Role role
 ) {
 }

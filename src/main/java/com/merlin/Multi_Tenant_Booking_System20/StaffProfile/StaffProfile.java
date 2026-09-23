@@ -1,6 +1,7 @@
 package com.merlin.Multi_Tenant_Booking_System20.StaffProfile;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.merlin.Multi_Tenant_Booking_System20.Booking.Booking;
 import com.merlin.Multi_Tenant_Booking_System20.QualifiedServices.QualifiedServices;
 import com.merlin.Multi_Tenant_Booking_System20.User.User;
 import com.merlin.Multi_Tenant_Booking_System20.Vendor.Vendor;
@@ -27,15 +28,14 @@ public class StaffProfile {
     private User userId;
 
 
-    @OneToMany(
-            mappedBy ="staffProfile"
-    )
-    @JsonManagedReference
-    private List<Vendor> vendor;
+    @ManyToOne
+    @JoinColumn(name = "vendorId")
+    private Vendor vendor;
 
     private boolean isAvailable;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private boolean isBooked;
 
     @OneToMany(
             mappedBy = "staffProfile"
@@ -43,10 +43,16 @@ public class StaffProfile {
     @JsonManagedReference
     private List<QualifiedServices> qualifiedService;
 
+    @OneToMany(
+            mappedBy = "bookedStaff"
+    )
+    @JsonManagedReference
+    private List<Booking> booking;
+
     public StaffProfile() {
     }
 
-    public StaffProfile(User userId, List<Vendor> vendor, boolean isAvailable, LocalDateTime startDate, LocalDateTime endDate, List<QualifiedServices> qualifiedService) {
+    public StaffProfile(User userId, Vendor vendor, boolean isAvailable, LocalDateTime startDate, LocalDateTime endDate, List<QualifiedServices> qualifiedService) {
         this.userId = userId;
         this.vendor = vendor;
         this.isAvailable = isAvailable;

@@ -41,17 +41,16 @@ public class Vendor {
     private LocalDateTime createdAt;
     private DayOfWeek startOfWeek;
     private DayOfWeek endOfWeek;
-    private LocalTime openingHours;
-    private LocalTime closingHours;
+    private LocalTime openingHour;
+    private LocalTime closingHour;
     private int stars;
     private int maxBookingDays;
 
-    @ManyToOne
-    @JoinColumn(
-            name = "staffProfileId"
+    @OneToMany(
+            mappedBy = "vendor"
     )
-    @JsonBackReference
-    private StaffProfile staffProfile;
+    @JsonManagedReference
+    private List<Vendor> vendors;
 
     @OneToMany(
             mappedBy = "vendor"
@@ -78,6 +77,11 @@ public class Vendor {
     private int reviewCount;
     private double averageRating;
     private double totalRating;
+    @Column(name = "k2_client_id", length = 500)
+    private String k2ClientId;
+    @Column(name = "k2_client_secret")
+    private String k2ClientSecret;
+    private String tillNumber;
 
 
 
@@ -93,8 +97,8 @@ public class Vendor {
         this.createdAt = LocalDateTime.now();
         this.startOfWeek = startOfWeek;
         this.endOfWeek = endOfWeek;
-        this.openingHours = openingHours;
-        this.closingHours = closingHours;
+        this.openingHour = openingHours;
+        this.closingHour = closingHours;
         this.createdAt = LocalDateTime.now();
     }
 }

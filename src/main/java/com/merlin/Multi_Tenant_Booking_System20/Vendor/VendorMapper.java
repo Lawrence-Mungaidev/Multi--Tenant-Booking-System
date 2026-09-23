@@ -13,7 +13,7 @@ public class VendorMapper {
         vendor.setVendorCity(dto.vendorCity());
         vendor.setMaxBookingDays(dto.maxBookingDays());
         vendor.setOpeningHours(dto.openingHours());
-        vendor.setClosingHours(dto.closingHours());
+        vendor.setClosingHour(dto.closingHours());
         vendor.setStartOfWeek(dto.startOfWeek());
         vendor.setEndOfWeek(dto.endOfWeek());
 
@@ -21,6 +21,6 @@ public class VendorMapper {
     }
 
     public VendorResponseDto toVendorResponseDto(Vendor vendor) {
-        return  new VendorResponseDto(vendor.getVendorId(), vendor.getImageURL(), vendor.getVendorAddress(), vendor.getVendorEmail(), vendor.getVendorPhone(), vendor.getVendorCity(), vendor.getVendorCity(), vendor.getStartOfWeek(), vendor.getEndOfWeek(),vendor.getOpeningHours(), vendor.getClosingHours());
+        return  new VendorResponseDto(vendor.getVendorId(), vendor.getImageURL(), vendor.getVendorAddress(), vendor.getVendorEmail(), vendor.getVendorPhone(), vendor.getVendorCity(), vendor.getVendorCity(), vendor.getStartOfWeek(), vendor.getEndOfWeek(),vendor.getOpeningHours(), vendor.getClosingHour());
     }
 }

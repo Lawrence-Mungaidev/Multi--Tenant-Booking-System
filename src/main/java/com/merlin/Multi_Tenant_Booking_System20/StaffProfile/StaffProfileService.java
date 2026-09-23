@@ -37,21 +37,19 @@ public class StaffProfileService {
         }
 
         boolean alreadyEmployed = staffProfileRepository
-                .findByUserIdAndEndDateIsNull(targetUser.getUserId())
+                . findByUserIdAndEndDateIsNull(targetUser.getUserId())
                 .isPresent();
 
         if (alreadyEmployed) {
             throw new BusinessRuleException("This user is already employed elsewhere");
         }
 
-        List<Vendor> vendors = new ArrayList<>();
-        vendors.add(vendor);
 
         StaffProfile staffProfile = new StaffProfile();
         staffProfile.setAvailable(true);
         staffProfile.setStartDate(LocalDateTime.now());
         staffProfile.setUserId(staff);
-        staffProfile.setVendor(vendors);
+        staffProfile.setVendor(vendor);
 
         var savedStaffProfile = staffProfileRepository.save(staffProfile);
 
@@ -91,15 +89,9 @@ public class StaffProfileService {
         staffProfile.setEndDate(LocalDateTime.now());
         staffProfile.setAvailable(false);
 
-        String vendorName = null;
 
-        for(Vendor vendor : staffProfile.getVendor()){
-            if(authenticatedUser.getVendor().equals(vendor) && staffProfile.getEndDate() == null){
-                vendorName = vendor.getVendorName();
-            }
-        }
 
-        String message = "Unfortunately we no longer need you're service and from " + LocalDateTime.now() + " you are dismissed at " + vendorName + " we wish you luck on your career.";
+        String message = "Unfortunately we no longer need you're service and from " + LocalDateTime.now() + " you are dismissed at " + staffProfile.getVendor().getVendorName() + " we wish you luck on your career.";
 
         notificationsService.createNotification(message, authenticatedUser.getUserId(), staffProfileId, NotificationType.FIRED);
 
